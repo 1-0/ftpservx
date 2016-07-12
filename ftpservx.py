@@ -10,11 +10,6 @@ from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
 
 
-
-def _(uuu): 
-    return uuu
-
-
 import imp
 try:
     #raise ImportError
@@ -22,7 +17,7 @@ try:
     foundPySide = True
     #print 'PySide'
 except ImportError:
-    print _(u"""Try to use PyQt4
+    print (u"""Try to use PyQt4
 (license - http://www.riverbankcomputing.co.uk/software/pyqt/license )
 instead of PySide
 (license - LGPL - http://www.gnu.org/copyleft/lesser.html )""")
@@ -39,7 +34,10 @@ else:
     from PyQt4.QtGui import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel
     from PyQt4.QtGui import QLineEdit, QTextBrowser, QTextEdit, QFileDialog
     from PyQt4.QtGui import QPixmap, QIcon, QMainWindow, QApplication, QGroupBox
-    LIB_USE = "PyQt4"
+    LIB_USE = "PyQt"
+
+
+__version__ = '''0.2.1'''
 
 
 TANGO_ICONS = {'applications_system':"""/* XPM */
@@ -137,9 +135,9 @@ def runFtpD( userdir=r"D:\10", username=u"user", userpass=u"12345",
             serverip=u"127.0.0.1", serverport=21010):
     """runFtpD - run ftpd server"""
 
-    print str((userdir, username, userpass,
-            serverpermitions, anonymousdir, 
-            serverip, serverport))
+    #print str((userdir, username, userpass,
+            #serverpermitions, anonymousdir, 
+            #serverip, serverport))
     authorizer = DummyAuthorizer()
     authorizer.add_user(username, userpass, userdir, 
                         perm=serverpermitions)
@@ -177,7 +175,7 @@ class FtpdX(QMainWindow):
         #self.setGeometry(100, 100, 400, 400)
         self.setWindowIcon(getIcon('applications_system'))
         self.setMinimumSize(570,460)
-        self.setWindowTitle(_(u'FtpdX'))
+        self.setWindowTitle(u'ftpservX')
         
         window = QWidget()
         buttons = QWidget()
@@ -341,7 +339,7 @@ class FtpdX(QMainWindow):
                 self.statusBar().showMessage("Open: "+self.path)
             
         else:
-            self.statusBar().showMessage(_(u'Stop Open Path'))
+            self.statusBar().showMessage(u'Stop Open Path')
 
     def RunFtpPath(self, ftppath):
         if self.procftp:
