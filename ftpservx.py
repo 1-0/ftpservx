@@ -4,6 +4,14 @@
 
 import sys, os, getpass, logging, re
 from multiprocessing import Process, Queue
+
+from pyftpdlib.authorizers import DummyAuthorizer
+from pyftpdlib.handlers import FTPHandler
+from pyftpdlib.servers import FTPServer
+
+
+
+
 logger = logging.getLogger(__name__)
 
 #from PySide import QtGui, QtCore
@@ -139,17 +147,10 @@ static char * format_text_bold_xpm[] = {
 """}
 
 
-
-
-
 def runFtpD( userdir=r"D:\10", username="user", userpass="12345",
             serverpermitions="elradfmw", anonymousdir=None, 
             serverip="127.0.0.1", serverport=21010):
     """runFtpD - run ftpd server"""
-
-    from pyftpdlib.authorizers import DummyAuthorizer
-    from pyftpdlib.handlers import FTPHandler
-    from pyftpdlib.servers import FTPServer
 
     authorizer = DummyAuthorizer()
     authorizer.add_user(username, userpass, userdir, 
@@ -213,13 +214,12 @@ class FtpdX(QtGui.QMainWindow):
         self.authorizationLayout = QtGui.QHBoxLayout()
         self.premitionsLayout = QtGui.QHBoxLayout()
 
-        self.buttonRunCwd = QtGui.QPushButton("On/Off Serv at " + self.baseDir)
-        self.buttonRunHome = QtGui.QPushButton("On/Off Serv at " + self.homePath)
+        self.buttonRunCwd = QtGui.QPushButton(getIcon('media_playback_start'), "On/Off Serv at " + self.baseDir)
         self.buttonRunSet = QtGui.QPushButton(getIcon('zoom-in'), "On/Off Serv at set")
         self.buttonExit = QtGui.QPushButton(getIcon('application-exit'), "Exit")
         
         self.pathLabel = QtGui.QLabel("Path: ")
-        self.pathInput = QtGui.QLineEdit("/")
+        self.pathInput = QtGui.QLineEdit(self.homePath)
         self.buttonPath = QtGui.QPushButton(getIcon('document-open'), "Select Path")
         self.ipLabel = QtGui.QLabel("IP: ")
         self.ipInput = QtGui.QLineEdit("127.0.0.1")
@@ -264,11 +264,9 @@ class FtpdX(QtGui.QMainWindow):
         
         self.buttonPath.clicked.connect(self.openFolder)
         self.buttonRunCwd.clicked.connect(self.RunCwdClicked)
-        self.buttonRunHome.clicked.connect(self.RunHomeClicked)
         self.buttonRunSet.clicked.connect(self.RunSetClicked)
         self.buttonExit.clicked.connect(self.exitClicked)
 
-        self.buttonsLayout.addWidget(self.buttonRunHome)
         self.buttonsLayout.addWidget(self.buttonRunCwd)
         self.buttonsLayout.addWidget(self.buttonRunSet)
         buttons.setLayout(self.buttonsLayout)
@@ -294,6 +292,7 @@ class FtpdX(QtGui.QMainWindow):
             self.procftp.terminate()
             self.procftp = None
             self.statusBar().showMessage(str(self.procftp))
+            self.textLog.append('Server is stopped')
         else:
             ip_get = re.search(r'\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b', self.ipInput.text())
             if ip_get:
@@ -330,11 +329,8 @@ class FtpdX(QtGui.QMainWindow):
                 port_n
                     ))
             self.procftp.start()
+            self.textLog.append('Server is started at ' + self.pathInput.text())
             self.statusBar().showMessage(self.pathInput.text())
-
-
-    def RunHomeClicked(self):
-        self.RunFtpPath(self.homePath)
 
 
     def RunCwdClicked(self):
@@ -369,10 +365,12 @@ class FtpdX(QtGui.QMainWindow):
         if self.procftp:
             self.procftp.terminate()
             self.procftp = None
+            self.textLog.append('Server is stopped')
             self.statusBar().showMessage(str(self.procftp))
         else:
             self.procftp = Process(target=runFtpD, args=(ftppath, 1))
             self.procftp.start()
+            self.textLog.append('Server is started at ' + ftppath)
             self.statusBar().showMessage(ftppath)
 
 
