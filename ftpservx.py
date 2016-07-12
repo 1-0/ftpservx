@@ -147,11 +147,14 @@ static char * format_text_bold_xpm[] = {
 """}
 
 
-def runFtpD( userdir=r"D:\10", username="user", userpass="12345",
-            serverpermitions="elradfmw", anonymousdir=None, 
-            serverip="127.0.0.1", serverport=21010):
+def runFtpD( userdir=r"D:\10", username=u"user", userpass=u"12345",
+            serverpermitions=u"elradfmw", anonymousdir=None, 
+            serverip=u"127.0.0.1", serverport=21010):
     """runFtpD - run ftpd server"""
 
+    print str((userdir, username, userpass,
+            serverpermitions, anonymousdir, 
+            serverip, serverport))
     authorizer = DummyAuthorizer()
     authorizer.add_user(username, userpass, userdir, 
                         perm=serverpermitions)
@@ -166,6 +169,7 @@ def runFtpD( userdir=r"D:\10", username="user", userpass="12345",
 
 
 def getIcon(iconname):
+    """getIcon - get icon data by icon name"""
     newPixmap = QtGui.QPixmap()
     newPixmap.loadFromData(TANGO_ICONS[iconname])
     return QtGui.QIcon(newPixmap)
@@ -178,7 +182,7 @@ class FtpdX(QtGui.QMainWindow):
         super(FtpdX, self).__init__()
         #init class constants
         self.homePath = os.path.expanduser('~')
-        self.baseDir = os.getcwd()
+        self.baseDir = u''+os.getcwd()
         self.initUI()
         self.procftp = None
         self.startPath = None
@@ -214,7 +218,7 @@ class FtpdX(QtGui.QMainWindow):
         self.authorizationLayout = QtGui.QHBoxLayout()
         self.premitionsLayout = QtGui.QHBoxLayout()
 
-        self.buttonRunCwd = QtGui.QPushButton(getIcon('media_playback_start'), "On/Off Serv at " + self.baseDir)
+        self.buttonRunCwd = QtGui.QPushButton(getIcon('media_playback_start'), self.baseDir)
         self.buttonRunSet = QtGui.QPushButton(getIcon('zoom-in'), "On/Off Serv at set")
         self.buttonExit = QtGui.QPushButton(getIcon('application-exit'), "Exit")
         
@@ -228,7 +232,8 @@ class FtpdX(QtGui.QMainWindow):
         self.portInput = QtGui.QLineEdit("21010")
         self.portInput.setInputMask("00009;")
         self.userLabel = QtGui.QLabel("User Name: ")
-        self.userInput = QtGui.QLineEdit("user")
+        self.userInput = QtGui.QLineEdit(getpass.getuser())
+        #self.userInput = QtGui.QLineEdit("user")
         self.passwordLabel = QtGui.QLabel("Password: ")
         self.passwordInput = QtGui.QLineEdit("12345")
         self.permitionsLabel = QtGui.QLabel("Permitions: ")
@@ -368,7 +373,8 @@ class FtpdX(QtGui.QMainWindow):
             self.textLog.append('Server is stopped')
             self.statusBar().showMessage(str(self.procftp))
         else:
-            self.procftp = Process(target=runFtpD, args=(ftppath, 1))
+            self.procftp = Process(target=runFtpD, args=(ftppath, self.userInput.text(), self.passwordInput.text()))
+            #self.procftp = Process(target=runFtpD, args=(ftppath, 1))
             self.procftp.start()
             self.textLog.append('Server is started at ' + ftppath)
             self.statusBar().showMessage(ftppath)
