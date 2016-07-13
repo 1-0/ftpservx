@@ -25,15 +25,15 @@ instead of PySide
 
 if foundPySide:
     from PySide import QtGui
-    from PySide.QtGui import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel
-    from PySide.QtGui import QLineEdit, QTextBrowser, QTextEdit, QFileDialog
-    from PySide.QtGui import QPixmap, QIcon, QMainWindow, QApplication, QGroupBox
+    from PySide.QtGui import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel,\
+        QLineEdit, QTextBrowser, QTextEdit, QFileDialog, QWizardPage,\
+        QPixmap, QIcon, QMainWindow, QApplication, QGroupBox, QWizard
     LIB_USE = "PySide"
 else:
     from PyQt4 import QtGui
-    from PyQt4.QtGui import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel
-    from PyQt4.QtGui import QLineEdit, QTextBrowser, QTextEdit, QFileDialog
-    from PyQt4.QtGui import QPixmap, QIcon, QMainWindow, QApplication, QGroupBox
+    from PyQt4.QtGui import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel,\
+        QLineEdit, QTextBrowser, QTextEdit, QFileDialog, QWizardPage,\
+        QPixmap, QIcon, QMainWindow, QApplication, QGroupBox, QWizard
     LIB_USE = "PyQt"
 
 
@@ -223,6 +223,7 @@ class FtpdX(QMainWindow):
         self.logBox = QGroupBox("FtpdX Server log:")
         
         self.buttonPath.clicked.connect(self.openFolder)
+        self.buttonPermitions.clicked.connect(self.setPremition)
         self.buttonRunCwd.clicked.connect(self.RunCwdClicked)
         self.buttonRunSet.clicked.connect(self.RunSetClicked)
         self.buttonExit.clicked.connect(self.exitClicked)
@@ -269,6 +270,14 @@ class FtpdX(QMainWindow):
         window.setLayout(commonLayout)
         self.setCentralWidget(window)
         self.show()
+
+    def setPremition(self):
+        print ('set premition')
+        wizard = QWizard()
+        wizard.addPage(self.createIntroPage())
+
+        wizard.setWindowTitle("Trivial Wizard")
+        self.wiz = wizard.show()
 
     def RunSetClicked(self):
         if self.procftp:
@@ -362,6 +371,22 @@ class FtpdX(QMainWindow):
     def closeEvent(self, event):
         self.exitClicked()
         event.accept()
+
+    def createIntroPage(self):
+        page = QWizardPage()
+        page.setTitle("Introduction")
+
+        label = QLabel("This wizard will help you register your copy of Super Product Two.")
+        label.setWordWrap(True)
+
+        layout = QVBoxLayout()
+        layout.addWidget(label)
+        page.setLayout(layout)
+
+        return page
+
+
+
 
 def ftpdxrun():
     app = QApplication(sys.argv)
