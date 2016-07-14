@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 '''ftpserv - ftp server gui, based on pyftpdlib writed on Python. Licensed by GPL3.'''
 
-import sys, os, getpass, logging, re
+import sys, os, getpass, logging, re, socket
 from multiprocessing import Process, Queue
 
 from pyftpdlib.authorizers import DummyAuthorizer
@@ -149,6 +149,36 @@ def runFtpD( userdir=r"D:\10", username=u"user", userpass=u"12345",
     #print "address "+str(server.address)
     return server.serve_forever()
 
+if os.name != "nt":
+    import fcntl
+    import struct
+
+    def get_interface_ip(ifname):
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        return socket.inet_ntoa(fcntl.ioctl(s.fileno(), 0x8915, struct.pack('256s',
+                                ifname[:15]))[20:24])
+
+def get_lan_ip():
+    ip = socket.gethostbyname(socket.gethostname())
+    if ip.startswith("127.") and os.name != "nt":
+        interfaces = [
+            "eth0",
+            "eth1",
+            "eth2",
+            "wlan0",
+            "wlan1",
+            "wifi0",
+            "ath0",
+            "ath1",
+            "ppp0",
+            ]
+        for ifname in interfaces:
+            try:
+                ip = get_interface_ip(ifname)
+                break
+            except IOError:
+                pass
+    return ip
 
 def getIcon(iconname):
     """getIcon - get icon data by icon name"""
@@ -191,7 +221,7 @@ class FtpdX(QMainWindow):
         self.buttonPath = QPushButton(getIcon('document-open'), "Select Path")
         self.buttonPath.setToolTip('Select start folder for ftp access')
         self.ipLabel = QLabel("IP: ")
-        self.ipInput = QLineEdit("127.0.0.1")
+        self.ipInput = QLineEdit("0.0.0.0")
         self.ipInput.setReadOnly(True)
         #self.ipInput.setInputMask('000.000.000.000;_')
         self.portLabel = QLabel("Port: ")
@@ -243,6 +273,7 @@ class FtpdX(QMainWindow):
         buttonsLayout.addWidget(self.buttonRunSet)
         self.logBox.setLayout(logLayout)
         self.textLog = QTextBrowser()
+        self.textLog.setOpenLinks (False)
         logLayout.addWidget(self.textLog)
         
         commonLayout.addLayout(confLayout)
@@ -306,7 +337,8 @@ class FtpdX(QMainWindow):
                 port_n
                     ))
             self.procftp.start()
-            self.textLog.append('Server is started at ' + self.pathInput.text())
+            ftp_link = '<a href="ftp://' + get_lan_ip() + ':' + self.portInput.text() + '">ftp://' + get_lan_ip() + ':' + self.portInput.text()+'</a>'
+            self.textLog.append('Server ' + ftp_link + ' is started at ' + self.pathInput.text())
             self.statusBar().showMessage(self.pathInput.text())
 
     def RunCwdClicked(self):
@@ -345,10 +377,17 @@ class FtpdX(QMainWindow):
             self.statusBar().showMessage(str(self.procftp))
         else:
             self.procftp = Process(target=runFtpD, args=(ftppath, 
-                        self.userInput.text(), self.passwordInput.text()))
+                self.userInput.text(), 
+                self.passwordInput.text(),
+                self.permitionsInput.text(), 
+                None, 
+                self.ipInput.text(),
+                int(self.portInput.text())
+                    ))
             self.procftp.start()
-            self.textLog.append('Server is started at ' + ftppath)
-            self.statusBar().showMessage(ftppath)
+            ftp_link = '<a href="ftp://' + get_lan_ip() + ':' + self.portInput.text() + '">ftp://' + get_lan_ip() + ':' + self.portInput.text()+'</a>'
+            self.textLog.append('Server ' + ftp_link + ' is started at ' + ftppath)
+            #self.textLog.append('Server is started at ' + ftppath)
 
     def exitClicked(self):
         '''exitClicked - exit clicked'''
