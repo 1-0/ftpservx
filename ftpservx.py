@@ -37,7 +37,7 @@ else:
     LIB_USE = "PyQt"
 
 
-__version__ = '''0.2.1'''
+__version__ = '''0.3.2'''
 
 
 TANGO_ICONS = {'applications_system':"""/* XPM */
@@ -169,6 +169,7 @@ class FtpdX(QMainWindow):
         self.initUI()
 
     def initUI(self):
+        '''initUI() - init Ui ftpserx'''
         self.statusBar()
         #self.setGeometry(100, 100, 400, 400)
         self.setWindowIcon(getIcon('applications_system'))
@@ -254,6 +255,7 @@ class FtpdX(QMainWindow):
         self.show()
 
     def setPremition(self):
+        '''setPremition - run premitions wizard'''
         dlg = PremitionsDialog(self)
         if dlg.exec_():
             values = dlg.getValues()
@@ -262,6 +264,7 @@ class FtpdX(QMainWindow):
                 self.permitionsInput.setText(values)
 
     def RunSetClicked(self):
+        '''RunSetClicked - run ftp server whith setted options'''
         if self.procftp:
             self.procftp.terminate()
             self.procftp = None
@@ -307,9 +310,11 @@ class FtpdX(QMainWindow):
             self.statusBar().showMessage(self.pathInput.text())
 
     def RunCwdClicked(self):
+        '''RunCwdClicked - run ftp server whith current path to sharing by ftp'''
         self.RunFtpPath(self.baseDir)
 
     def openFolder(self):
+        '''openFolder - select path to sharing by ftp'''
         if not self.startPath:
             #for windows
             self.startPath = './'
@@ -346,11 +351,13 @@ class FtpdX(QMainWindow):
             self.statusBar().showMessage(ftppath)
 
     def exitClicked(self):
+        '''exitClicked - exit clicked'''
         if self.procftp:
             self.procftp.terminate()
         sys.exit()
 
     def closeEvent(self, event):
+        '''closeEvent - close button clicked'''
         self.exitClicked()
         event.accept()
 
@@ -364,6 +371,7 @@ class PremitionsDialog(QDialog):
         self.setWindowIcon(getIcon('applications_system'))
 
     def setupUi(self):
+        '''setupUi() - setup Ui wizard'''
         commonLayout = QVBoxLayout()
         readLayout = QVBoxLayout()
         self.readRulesBox = QGroupBox("Read premitions:")
@@ -415,6 +423,7 @@ class PremitionsDialog(QDialog):
         self.setValues()
         
     def setValues(self):
+        '''setValues() - set premitions value from parent'''
         if 'e' in self.rulesstr:
             self.readChangeDirectory.setChecked(True)
         if 'l' in self.rulesstr:
@@ -436,6 +445,7 @@ class PremitionsDialog(QDialog):
             self.writeChangeMode.setChecked(True)
         
     def getValues(self):
+        '''getValues() - get premitions string'''
         rulesstr = ''
         if self.readChangeDirectory.isChecked():
             rulesstr += 'e'
