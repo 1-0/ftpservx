@@ -386,21 +386,32 @@ class FtpdX(QMainWindow):
             commonLayout = QVBoxLayout()
             readLayout = QVBoxLayout()
             self.readRulesBox = QGroupBox("Read premitions:")
-            
             self.readChangeDirectory = QCheckBox('"e" = change directory (CWD, CDUP commands)', self.readRulesBox)
             readLayout.addWidget(self.readChangeDirectory)
             self.readListDirectory = QCheckBox('"l" = list files (LIST, NLST, STAT, MLSD, MLST, SIZE commands)', self.readRulesBox)
             readLayout.addWidget(self.readListDirectory)
-            self.readRetrieveDirectory = QCheckBox('"r" = retrieve file from the server (RETR command)', self.readRulesBox)
-            readLayout.addWidget(self.readRetrieveDirectory)
-            
+            self.readRetrieveFile = QCheckBox('"r" = retrieve file from the server (RETR command)', self.readRulesBox)
+            readLayout.addWidget(self.readRetrieveFile)
             self.readRulesBox.setLayout(readLayout)
-            
             commonLayout.addWidget(self.readRulesBox)
             
-        
+            writeLayout = QVBoxLayout()
+            self.writeRulesBox = QGroupBox("Write premitions:")
+            self.wrieAppendData = QCheckBox('"a" = append data to an existing file (APPE command)', self.writeRulesBox)
+            writeLayout.addWidget(self.wrieAppendData)
+            self.writeDeleteFile = QCheckBox('"d" = delete file or directory (DELE, RMD commands)', self.writeRulesBox)
+            writeLayout.addWidget(self.writeDeleteFile)
+            self.writeRename = QCheckBox('"f" = rename file or directory (RNFR, RNTO commands)', self.writeRulesBox)
+            writeLayout.addWidget(self.writeRename)
+            self.writeCreateDirectory = QCheckBox('"m" = create directory (MKD command)', self.writeRulesBox)
+            writeLayout.addWidget(self.writeCreateDirectory)
+            self.writeStoreFile = QCheckBox('"w" = store a file to the server (STOR, STOU commands)', self.writeRulesBox)
+            writeLayout.addWidget(self.writeStoreFile)
+            self.writeChangeMode = QCheckBox('"M" = change mode/permission (SITE CHMOD command)', self.writeRulesBox)
+            writeLayout.addWidget(self.writeChangeMode)
+            self.writeRulesBox.setLayout(writeLayout)
+            commonLayout.addWidget(self.writeRulesBox)
             
-            #self.resize(508, 300)
             self.buttonBox = QDialogButtonBox(self)
             commonLayout.addWidget(self.buttonBox)
 
