@@ -27,13 +27,13 @@ if foundPySide:
     from PySide import QtGui, QtCore
     from PySide.QtGui import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel,\
         QLineEdit, QTextBrowser, QTextEdit, QFileDialog, QInputDialog, QDialog,\
-        QPixmap, QIcon, QMainWindow, QApplication, QGroupBox, QDialogButtonBox
+        QPixmap, QIcon, QMainWindow, QApplication, QGroupBox, QDialogButtonBox, QCheckBox
     LIB_USE = "PySide"
 else:
     from PyQt4 import QtGui, QtCore
     from PyQt4.QtGui import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel,\
         QLineEdit, QTextBrowser, QTextEdit, QFileDialog, QInputDialog, QDialog,\
-        QPixmap, QIcon, QMainWindow, QApplication, QGroupBox, QDialogButtonBox
+        QPixmap, QIcon, QMainWindow, QApplication, QGroupBox, QDialogButtonBox, QCheckBox
     LIB_USE = "PyQt"
 
 
@@ -157,36 +157,6 @@ def getIcon(iconname):
     return QIcon(newPixmap)
     
 
-class Ui_Dialog(object):
-    def setupUi(self, Dialog):
-        Dialog.setObjectName("Dialog")
-        Dialog.resize(508, 300)
-        self.buttonBox = QtGui.QDialogButtonBox(Dialog)
-        self.buttonBox.setGeometry(QtCore.QRect(150, 250, 341, 32))
-        #self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QDialogButtonBox.Cancel|QDialogButtonBox.Ok)
-        self.buttonBox.setObjectName("buttonBox")
-        self.label = QLabel(Dialog)
-        self.label.setGeometry(QtCore.QRect(10, 120, 181, 31))
-        #font = QtGui.QFont()
-        #font.setPointSize(16)
-        #self.label.setFont(font)
-        self.label.setObjectName("label")
-        #self.sl_value = QtGui.QSlider(Dialog)
-        #self.sl_value.setGeometry(QtCore.QRect(220, 120, 161, 31))
-        #self.sl_value.setOrientation(QtCore.Qt.Horizontal)
-        #self.sl_value.setObjectName("sl_value")
-        self.ed_value = QLineEdit(Dialog)
-        self.ed_value.setGeometry(QtCore.QRect(400, 120, 41, 31))
-        #font = QtGui.QFont()
-        #font.setPointSize(16)
-        #self.ed_value.setFont(font)
-        self.ed_value.setObjectName("ed_value")
-        #self.retranslateUi(Dialog)
-        #QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL("accepted()"), Dialog.accept)
-        #QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL("rejected()"), Dialog.reject)
-        #QtCore.QMetaObject.connectSlotsByName(Dialog)
-
 class FtpdX(QMainWindow):
     """FtpdX - gui ftpd server"""
     def __init__(self):
@@ -212,6 +182,7 @@ class FtpdX(QMainWindow):
         adres = QWidget()
         authori = QWidget()
         premit = QWidget()
+        
         commonLayout = QVBoxLayout()
         buttonsLayout = QHBoxLayout()
         confLayout = QVBoxLayout()
@@ -248,7 +219,7 @@ class FtpdX(QMainWindow):
         self.buttonRunSet.setToolTip('Run ftpserverx whith seted settings')
         self.buttonExit = QPushButton(getIcon('application-exit'), "Exit")
         self.buttonExit.setToolTip('Exit ftpservx')
-        self.logBox = QGroupBox("FtpdX Server log:")
+        self.logBox = QGroupBox("ftpservX Server log:")
         
         self.buttonPath.clicked.connect(self.openFolder)
         self.buttonPermitions.clicked.connect(self.setPremition)
@@ -308,14 +279,7 @@ class FtpdX(QMainWindow):
         dlg = self.premitionsDialog()
         if dlg.exec_():
             values = dlg.getValues()
-        
-    class premitionsDialog(QDialog, Ui_Dialog):
-        def __init__(self, parent=None):
-            QDialog.__init__(self, parent)
-            self.setupUi(self)
-        
-        def getValues(self):
-            return 1
+            print values
 
     def RunSetClicked(self):
         if self.procftp:
@@ -388,7 +352,6 @@ class FtpdX(QMainWindow):
         else:
             self.statusBar().showMessage(u'Stop Open Path')
 
-
     def RunFtpPath(self, ftppath):
         if self.procftp:
             self.procftp.terminate()
@@ -411,6 +374,47 @@ class FtpdX(QMainWindow):
         self.exitClicked()
         event.accept()
 
+    class premitionsDialog(QDialog):
+        def __init__(self, parent=None):
+            QDialog.__init__(self, parent)
+            self.setupUi()
+            self.setWindowTitle(u'Set premitions')
+            self.setWindowIcon(getIcon('applications_system'))
+
+        def setupUi(self):
+            window = QWidget()
+            commonLayout = QVBoxLayout()
+            readLayout = QVBoxLayout()
+            self.readRulesBox = QGroupBox("Read premitions:")
+            
+            self.readChangeDirectory = QCheckBox('"e" = change directory (CWD, CDUP commands)', self.readRulesBox)
+            readLayout.addWidget(self.readChangeDirectory)
+            self.readListDirectory = QCheckBox('"l" = list files (LIST, NLST, STAT, MLSD, MLST, SIZE commands)', self.readRulesBox)
+            readLayout.addWidget(self.readListDirectory)
+            self.readRetrieveDirectory = QCheckBox('"r" = retrieve file from the server (RETR command)', self.readRulesBox)
+            readLayout.addWidget(self.readRetrieveDirectory)
+            
+            self.readRulesBox.setLayout(readLayout)
+            
+            commonLayout.addWidget(self.readRulesBox)
+            
+        
+            
+            #self.resize(508, 300)
+            self.buttonBox = QDialogButtonBox(self)
+            commonLayout.addWidget(self.buttonBox)
+
+            self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
+            self.buttonBox.setStandardButtons(QDialogButtonBox.Ok)
+            QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL("accepted()"), self.accept)
+            QtCore.QMetaObject.connectSlotsByName(self)
+
+            self.setLayout(commonLayout)
+
+            
+        def getValues(self):
+            #return self.ed_value.text()
+            return 1
 
 def ftpdxrun():
     app = QApplication(sys.argv)
