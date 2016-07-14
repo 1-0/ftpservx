@@ -326,13 +326,13 @@ class FtpdX(QMainWindow):
                 self.statusBar().showMessage("self.permitionsInput.text(): " + self.permitionsInput.text())
                 return
             
-            self.procftp = Process(target=runFtpD, args=(self.pathInput.text(), 
-                self.userInput.text(), 
-                self.passwordInput.text(),
-                self.permitionsInput.text(), 
+            self.procftp = Process(target=runFtpD, args=(str(self.pathInput.text()), 
+                str(self.userInput.text()), 
+                str(self.passwordInput.text()),
+                str(self.permitionsInput.text()), 
                 None, 
                 #self.ipInput.text(), 
-                server_ip,
+                str(server_ip),
                 #int(self.portInput.text())
                 port_n
                     ))
@@ -376,12 +376,12 @@ class FtpdX(QMainWindow):
             self.textLog.append('Server is stopped')
             self.statusBar().showMessage(str(self.procftp))
         else:
-            self.procftp = Process(target=runFtpD, args=(ftppath, 
-                self.userInput.text(), 
-                self.passwordInput.text(),
-                self.permitionsInput.text(), 
+            self.procftp = Process(target=runFtpD, args=(str(ftppath), 
+                str(self.userInput.text()), 
+                str(self.passwordInput.text()),
+                str(self.permitionsInput.text()), 
                 None, 
-                self.ipInput.text(),
+                str(self.ipInput.text()),
                 int(self.portInput.text())
                     ))
             self.procftp.start()
