@@ -24,16 +24,16 @@ instead of PySide
     foundPySide = False
 
 if foundPySide:
-    from PySide import QtGui
+    from PySide import QtGui, QtCore
     from PySide.QtGui import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel,\
-        QLineEdit, QTextBrowser, QTextEdit, QFileDialog, QWizardPage,\
-        QPixmap, QIcon, QMainWindow, QApplication, QGroupBox, QWizard
+        QLineEdit, QTextBrowser, QTextEdit, QFileDialog, QInputDialog, QDialog,\
+        QPixmap, QIcon, QMainWindow, QApplication, QGroupBox, QDialogButtonBox
     LIB_USE = "PySide"
 else:
-    from PyQt4 import QtGui
+    from PyQt4 import QtGui, QtCore
     from PyQt4.QtGui import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel,\
-        QLineEdit, QTextBrowser, QTextEdit, QFileDialog, QWizardPage,\
-        QPixmap, QIcon, QMainWindow, QApplication, QGroupBox, QWizard
+        QLineEdit, QTextBrowser, QTextEdit, QFileDialog, QInputDialog, QDialog,\
+        QPixmap, QIcon, QMainWindow, QApplication, QGroupBox, QDialogButtonBox
     LIB_USE = "PyQt"
 
 
@@ -129,7 +129,6 @@ static char * format_text_bold_xpm[] = {
 "16 16 99 2","      c None",".  c #3566A4","+   c #3364A3","@   c #82A2C9","#   c #E7EEF6","$   c #E8EFF7","%   c #7D9EC6","&   c #3666A4","*   c #D0DDED","=   c #A8C3E1","-   c #6790C0",";   c #A1BEDC",">   c #B3C6DD",",   c #6287B8","'   c #DAE5F1",")   c #8CB0D6","!   c #3464A1","~   c #88ADD5","{   c #ACC1DB","]   c #4B75AC","^   c #35639F","/   c #AAC0D9","(   c #ACC5DF","_   c #6E95C3",":   c #34629F","<   c #648DC0","[   c #89ABD3","}   c #6F93C0","|   c #33619F","1   c #3A66A0","2   c #BFCFE0","3   c #8DB1D8","4   c #3F6BA6","5   c #3C69A5","6   c #719CCF","7   c #759BCB","8   c #2F5D9B","9   c #2F5C99","0   c #7796BE","a   c #9DB8D7","b   c #729ACB","c   c #2D5B99","d   c #2D5B98","e   c #5C8BC5","f   c #6090CB","g   c #406FAD","h   c #2C5A99","i   c #2C5896","j   c #94AFCF","k   c #7EA4D1","l   c #5E89BF","m   c #295694","n   c #4C7CBA","o   c #5688C9","p   c #4A7DC0","q   c #2A5795","r   c #4A71A6","s   c #85A7D0","t   c #6E9AD0","u   c #759FD2","v   c #89ADD9","w   c #9BB9DE","x   c #B0C7E5","y   c #C5D6EC","z   c #C6D6EC","A   c #4B80C6","B   c #497FC6","C   c #2F5E9E","D   c #295592","E   c #658BBC","F   c #6C97CD","G   c #6392CD","H   c #5E8ECB","I   c #598BCA","J   c #5487C9","K   c #4F83C7","L   c #4A80C6","M   c #3E71B5","N   c #275392","O   c #2B5691","P   c #6692CA","Q   c #5D8ECB","R   c #32609D","S   c #234F8C","T   c #2D5C9C","U   c #487EC5","V   c #265391","W   c #244F8C","X   c #416EAC","Y   c #588ACA","Z   c #4B7DBE","`   c #224D8B"," .  c #4377BD","..  c #3667A9","+.  c #234E8C","@.  c #224D8A","#.  c #204A87","$.  c #214C89","%.  c #224C8A","                                ","          . + + + + .           ","          @ # $ $ # %           ","        & * = - - ; > &         ","        , ' ) ! ! ~ { ]         ","      ^ / ( _ : : < [ } |       ","      1 2 3 4     5 6 7 8       ","    9 0 a b c     d e f g h     ","    i j k l m m m m n o p q     ","    r s t u v w x y z A B C     ","  D E F G H I J K L B B B M N   ","  O P Q R S S S S S S T B U V   ","W X Y Z `             `  .B ..+.","@.#.#.#.$.            %.#.#.#.%.","                                ","                                "};
 """}
 
-
 def runFtpD( userdir=r"D:\10", username=u"user", userpass=u"12345",
             serverpermitions=u"elradfmw", anonymousdir=None, 
             serverip=u"127.0.0.1", serverport=21010):
@@ -158,6 +157,35 @@ def getIcon(iconname):
     return QIcon(newPixmap)
     
 
+class Ui_Dialog(object):
+    def setupUi(self, Dialog):
+        Dialog.setObjectName("Dialog")
+        Dialog.resize(508, 300)
+        self.buttonBox = QtGui.QDialogButtonBox(Dialog)
+        self.buttonBox.setGeometry(QtCore.QRect(150, 250, 341, 32))
+        #self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
+        self.buttonBox.setStandardButtons(QDialogButtonBox.Cancel|QDialogButtonBox.Ok)
+        self.buttonBox.setObjectName("buttonBox")
+        self.label = QLabel(Dialog)
+        self.label.setGeometry(QtCore.QRect(10, 120, 181, 31))
+        #font = QtGui.QFont()
+        #font.setPointSize(16)
+        #self.label.setFont(font)
+        self.label.setObjectName("label")
+        #self.sl_value = QtGui.QSlider(Dialog)
+        #self.sl_value.setGeometry(QtCore.QRect(220, 120, 161, 31))
+        #self.sl_value.setOrientation(QtCore.Qt.Horizontal)
+        #self.sl_value.setObjectName("sl_value")
+        self.ed_value = QLineEdit(Dialog)
+        self.ed_value.setGeometry(QtCore.QRect(400, 120, 41, 31))
+        #font = QtGui.QFont()
+        #font.setPointSize(16)
+        #self.ed_value.setFont(font)
+        self.ed_value.setObjectName("ed_value")
+        #self.retranslateUi(Dialog)
+        #QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL("accepted()"), Dialog.accept)
+        #QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL("rejected()"), Dialog.reject)
+        #QtCore.QMetaObject.connectSlotsByName(Dialog)
 
 class FtpdX(QMainWindow):
     """FtpdX - gui ftpd server"""
@@ -273,11 +301,21 @@ class FtpdX(QMainWindow):
 
     def setPremition(self):
         print ('set premition')
-        wizard = QWizard()
-        wizard.addPage(self.createIntroPage())
-
-        wizard.setWindowTitle("Trivial Wizard")
-        self.wiz = wizard.show()
+        #text, ok = QInputDialog.getText(self, 'Input Dialog', 
+            #'Enter your name:')
+        #if ok:
+            #print(str(text))
+        dlg = self.premitionsDialog()
+        if dlg.exec_():
+            values = dlg.getValues()
+        
+    class premitionsDialog(QDialog, Ui_Dialog):
+        def __init__(self, parent=None):
+            QDialog.__init__(self, parent)
+            self.setupUi(self)
+        
+        def getValues(self):
+            return 1
 
     def RunSetClicked(self):
         if self.procftp:
@@ -350,6 +388,7 @@ class FtpdX(QMainWindow):
         else:
             self.statusBar().showMessage(u'Stop Open Path')
 
+
     def RunFtpPath(self, ftppath):
         if self.procftp:
             self.procftp.terminate()
@@ -371,21 +410,6 @@ class FtpdX(QMainWindow):
     def closeEvent(self, event):
         self.exitClicked()
         event.accept()
-
-    def createIntroPage(self):
-        page = QWizardPage()
-        page.setTitle("Introduction")
-
-        label = QLabel("This wizard will help you register your copy of Super Product Two.")
-        label.setWordWrap(True)
-
-        layout = QVBoxLayout()
-        layout.addWidget(label)
-        page.setLayout(layout)
-
-        return page
-
-
 
 
 def ftpdxrun():
