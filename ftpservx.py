@@ -176,13 +176,6 @@ class FtpdX(QMainWindow):
         self.setWindowTitle(u'ftpservX')
         
         window = QWidget()
-        buttons = QWidget()
-        confi = QWidget()
-        pathl = QWidget()
-        adres = QWidget()
-        authori = QWidget()
-        premit = QWidget()
-        
         commonLayout = QVBoxLayout()
         buttonsLayout = QHBoxLayout()
         confLayout = QVBoxLayout()
@@ -205,7 +198,6 @@ class FtpdX(QMainWindow):
         self.portInput.setInputMask("00009;")
         self.userLabel = QLabel("User Name: ")
         self.userInput = QLineEdit(getpass.getuser())
-        #self.userInput = QLineEdit("user")
         self.passwordLabel = QLabel("Password: ")
         self.passwordInput = QLineEdit("12345")
         self.permitionsLabel = QLabel("Permitions: ")
@@ -242,27 +234,18 @@ class FtpdX(QMainWindow):
         premitionsLayout.addWidget(self.permitionsInput)
         premitionsLayout.addWidget(self.buttonPermitions)
         
-        pathl.setLayout(pathLayout)
-        confLayout.addWidget(pathl)
-        adres.setLayout(addressLayout)
-        confLayout.addWidget(adres)
-        authori.setLayout(authorizationLayout)
-        confLayout.addWidget(authori)
-        premit.setLayout(premitionsLayout)
-        confLayout.addWidget(premit)
-        confi.setLayout(confLayout)
+        confLayout.addLayout(pathLayout)
+        confLayout.addLayout(addressLayout)
+        confLayout.addLayout(authorizationLayout)
+        confLayout.addLayout(premitionsLayout)
         buttonsLayout.addWidget(self.buttonRunCwd)
         buttonsLayout.addWidget(self.buttonRunSet)
-        buttons.setLayout(buttonsLayout)
         self.logBox.setLayout(logLayout)
         self.textLog = QTextBrowser()
-        #self.textLog = QTextEdit()
-        #self.textLog.setReadOnly(True)
-        #self.textLog.setPlainText ('''FtpdX Server log: ''')
         logLayout.addWidget(self.textLog)
         
-        commonLayout.addWidget(confi)
-        commonLayout.addWidget(buttons)
+        commonLayout.addLayout(confLayout)
+        commonLayout.addLayout(buttonsLayout)
         commonLayout.addWidget(self.logBox)
         commonLayout.addWidget(self.buttonExit)
         
@@ -271,7 +254,7 @@ class FtpdX(QMainWindow):
         self.show()
 
     def setPremition(self):
-        dlg = PremitionsDialog()
+        dlg = PremitionsDialog(self)
         if dlg.exec_():
             values = dlg.getValues()
             #print values
@@ -375,6 +358,7 @@ class PremitionsDialog(QDialog):
     """PremitionsDialog - set premition dialog"""
     def __init__(self, parent=None):
         QDialog.__init__(self, parent)
+        self.rulesstr = parent.permitionsInput.text()
         self.setupUi()
         self.setWindowTitle(u'Set premitions')
         self.setWindowIcon(getIcon('applications_system'))
@@ -427,6 +411,29 @@ class PremitionsDialog(QDialog):
         QtCore.QMetaObject.connectSlotsByName(self)
 
         self.setLayout(commonLayout)
+        
+        self.setValues()
+        
+    def setValues(self):
+        if 'e' in self.rulesstr:
+            self.readChangeDirectory.setChecked(True)
+        if 'l' in self.rulesstr:
+            self.readListDirectory.setChecked(True)
+        if 'r' in self.rulesstr:
+            self.readRetrieveFile.setChecked(True)
+        
+        if 'a' in self.rulesstr:
+            self.writeAppendData.setChecked(True)
+        if 'd' in self.rulesstr:
+            self.writeDeleteFile.setChecked(True)
+        if 'f' in self.rulesstr:
+            self.writeRename.setChecked(True)
+        if 'm' in self.rulesstr:
+            self.writeCreateDirectory.setChecked(True)
+        if 'w' in self.rulesstr:
+            self.writeStoreFile.setChecked(True)
+        if 'M' in self.rulesstr:
+            self.writeChangeMode.setChecked(True)
         
     def getValues(self):
         rulesstr = ''
