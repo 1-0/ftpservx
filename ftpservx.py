@@ -271,15 +271,11 @@ class FtpdX(QMainWindow):
         self.show()
 
     def setPremition(self):
-        print ('set premition')
-        #text, ok = QInputDialog.getText(self, 'Input Dialog', 
-            #'Enter your name:')
-        #if ok:
-            #print(str(text))
-        dlg = self.premitionsDialog()
+        dlg = PremitionsDialog()
         if dlg.exec_():
             values = dlg.getValues()
-            print values
+            #print values
+            self.permitionsInput.setText(values)
 
     def RunSetClicked(self):
         if self.procftp:
@@ -374,58 +370,79 @@ class FtpdX(QMainWindow):
         self.exitClicked()
         event.accept()
 
-    class premitionsDialog(QDialog):
-        def __init__(self, parent=None):
-            QDialog.__init__(self, parent)
-            self.setupUi()
-            self.setWindowTitle(u'Set premitions')
-            self.setWindowIcon(getIcon('applications_system'))
+class PremitionsDialog(QDialog):
+    """PremitionsDialog - set premition dialog"""
+    def __init__(self, parent=None):
+        QDialog.__init__(self, parent)
+        self.setupUi()
+        self.setWindowTitle(u'Set premitions')
+        self.setWindowIcon(getIcon('applications_system'))
 
-        def setupUi(self):
-            window = QWidget()
-            commonLayout = QVBoxLayout()
-            readLayout = QVBoxLayout()
-            self.readRulesBox = QGroupBox("Read premitions:")
-            self.readChangeDirectory = QCheckBox('"e" = change directory (CWD, CDUP commands)', self.readRulesBox)
-            readLayout.addWidget(self.readChangeDirectory)
-            self.readListDirectory = QCheckBox('"l" = list files (LIST, NLST, STAT, MLSD, MLST, SIZE commands)', self.readRulesBox)
-            readLayout.addWidget(self.readListDirectory)
-            self.readRetrieveFile = QCheckBox('"r" = retrieve file from the server (RETR command)', self.readRulesBox)
-            readLayout.addWidget(self.readRetrieveFile)
-            self.readRulesBox.setLayout(readLayout)
-            commonLayout.addWidget(self.readRulesBox)
-            
-            writeLayout = QVBoxLayout()
-            self.writeRulesBox = QGroupBox("Write premitions:")
-            self.wrieAppendData = QCheckBox('"a" = append data to an existing file (APPE command)', self.writeRulesBox)
-            writeLayout.addWidget(self.wrieAppendData)
-            self.writeDeleteFile = QCheckBox('"d" = delete file or directory (DELE, RMD commands)', self.writeRulesBox)
-            writeLayout.addWidget(self.writeDeleteFile)
-            self.writeRename = QCheckBox('"f" = rename file or directory (RNFR, RNTO commands)', self.writeRulesBox)
-            writeLayout.addWidget(self.writeRename)
-            self.writeCreateDirectory = QCheckBox('"m" = create directory (MKD command)', self.writeRulesBox)
-            writeLayout.addWidget(self.writeCreateDirectory)
-            self.writeStoreFile = QCheckBox('"w" = store a file to the server (STOR, STOU commands)', self.writeRulesBox)
-            writeLayout.addWidget(self.writeStoreFile)
-            self.writeChangeMode = QCheckBox('"M" = change mode/permission (SITE CHMOD command)', self.writeRulesBox)
-            writeLayout.addWidget(self.writeChangeMode)
-            self.writeRulesBox.setLayout(writeLayout)
-            commonLayout.addWidget(self.writeRulesBox)
-            
-            self.buttonBox = QDialogButtonBox(self)
-            commonLayout.addWidget(self.buttonBox)
+    def setupUi(self):
+        window = QWidget()
+        commonLayout = QVBoxLayout()
+        readLayout = QVBoxLayout()
+        self.readRulesBox = QGroupBox("Read premitions:")
+        self.readChangeDirectory = QCheckBox('"e" = change directory (CWD, CDUP commands)', self.readRulesBox)
+        readLayout.addWidget(self.readChangeDirectory)
+        self.readListDirectory = QCheckBox('"l" = list files (LIST, NLST, STAT, MLSD, MLST, SIZE commands)', self.readRulesBox)
+        readLayout.addWidget(self.readListDirectory)
+        self.readRetrieveFile = QCheckBox('"r" = retrieve file from the server (RETR command)', self.readRulesBox)
+        readLayout.addWidget(self.readRetrieveFile)
+        self.readRulesBox.setLayout(readLayout)
+        commonLayout.addWidget(self.readRulesBox)
+        
+        writeLayout = QVBoxLayout()
+        self.writeRulesBox = QGroupBox("Write premitions:")
+        self.writeAppendData = QCheckBox('"a" = append data to an existing file (APPE command)', self.writeRulesBox)
+        writeLayout.addWidget(self.writeAppendData)
+        self.writeDeleteFile = QCheckBox('"d" = delete file or directory (DELE, RMD commands)', self.writeRulesBox)
+        writeLayout.addWidget(self.writeDeleteFile)
+        self.writeRename = QCheckBox('"f" = rename file or directory (RNFR, RNTO commands)', self.writeRulesBox)
+        writeLayout.addWidget(self.writeRename)
+        self.writeCreateDirectory = QCheckBox('"m" = create directory (MKD command)', self.writeRulesBox)
+        writeLayout.addWidget(self.writeCreateDirectory)
+        self.writeStoreFile = QCheckBox('"w" = store a file to the server (STOR, STOU commands)', self.writeRulesBox)
+        writeLayout.addWidget(self.writeStoreFile)
+        self.writeChangeMode = QCheckBox('"M" = change mode/permission (SITE CHMOD command)', self.writeRulesBox)
+        writeLayout.addWidget(self.writeChangeMode)
+        self.writeRulesBox.setLayout(writeLayout)
+        commonLayout.addWidget(self.writeRulesBox)
+        
+        self.buttonBox = QDialogButtonBox(self)
+        commonLayout.addWidget(self.buttonBox)
 
-            self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-            self.buttonBox.setStandardButtons(QDialogButtonBox.Ok)
-            QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL("accepted()"), self.accept)
-            QtCore.QMetaObject.connectSlotsByName(self)
+        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
+        self.buttonBox.setStandardButtons(QDialogButtonBox.Ok)
+        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL("accepted()"), self.accept)
+        QtCore.QMetaObject.connectSlotsByName(self)
 
-            self.setLayout(commonLayout)
+        self.setLayout(commonLayout)
 
-            
-        def getValues(self):
-            #return self.ed_value.text()
-            return 1
+        
+    def getValues(self):
+        rulesstr = ''
+        if self.readChangeDirectory.isChecked():
+            rulesstr += 'e'
+        if self.readListDirectory.isChecked():
+            rulesstr += 'l'
+        if self.readRetrieveFile.isChecked():
+            rulesstr += 'r'
+        
+        if self.writeAppendData.isChecked():
+            rulesstr += 'a'
+        if self.writeDeleteFile.isChecked():
+            rulesstr += 'd'
+        if self.writeRename.isChecked():
+            rulesstr += 'f'
+        if self.writeCreateDirectory.isChecked():
+            rulesstr += 'm'
+        if self.writeStoreFile.isChecked():
+            rulesstr += 'w'
+        if self.writeChangeMode.isChecked():
+            rulesstr += 'M'
+        
+        return rulesstr
 
 def ftpdxrun():
     app = QApplication(sys.argv)
