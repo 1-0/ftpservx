@@ -275,7 +275,8 @@ class FtpdX(QMainWindow):
         if dlg.exec_():
             values = dlg.getValues()
             #print values
-            self.permitionsInput.setText(values)
+            if len(values)>0:
+                self.permitionsInput.setText(values)
 
     def RunSetClicked(self):
         if self.procftp:
@@ -379,32 +380,40 @@ class PremitionsDialog(QDialog):
         self.setWindowIcon(getIcon('applications_system'))
 
     def setupUi(self):
-        window = QWidget()
         commonLayout = QVBoxLayout()
         readLayout = QVBoxLayout()
         self.readRulesBox = QGroupBox("Read premitions:")
-        self.readChangeDirectory = QCheckBox('"e" = change directory (CWD, CDUP commands)', self.readRulesBox)
+        self.readChangeDirectory = QCheckBox('"e" = change directory', self.readRulesBox)
+        self.readChangeDirectory.setToolTip('"e" = change directory (CWD, CDUP commands)')
         readLayout.addWidget(self.readChangeDirectory)
-        self.readListDirectory = QCheckBox('"l" = list files (LIST, NLST, STAT, MLSD, MLST, SIZE commands)', self.readRulesBox)
+        self.readListDirectory = QCheckBox('"l" = list files', self.readRulesBox)
+        self.readListDirectory.setToolTip('"l" = list files (LIST, NLST, STAT, MLSD, MLST, SIZE commands)')
         readLayout.addWidget(self.readListDirectory)
-        self.readRetrieveFile = QCheckBox('"r" = retrieve file from the server (RETR command)', self.readRulesBox)
+        self.readRetrieveFile = QCheckBox('"r" = retrieve file from the server', self.readRulesBox)
+        self.readRetrieveFile.setToolTip('"r" = retrieve file from the server (RETR command)')
         readLayout.addWidget(self.readRetrieveFile)
         self.readRulesBox.setLayout(readLayout)
         commonLayout.addWidget(self.readRulesBox)
         
         writeLayout = QVBoxLayout()
         self.writeRulesBox = QGroupBox("Write premitions:")
-        self.writeAppendData = QCheckBox('"a" = append data to an existing file (APPE command)', self.writeRulesBox)
+        self.writeAppendData = QCheckBox('"a" = append data to an existing file', self.writeRulesBox)
+        self.writeAppendData.setToolTip('"a" = append data to an existing file (APPE command)')
         writeLayout.addWidget(self.writeAppendData)
-        self.writeDeleteFile = QCheckBox('"d" = delete file or directory (DELE, RMD commands)', self.writeRulesBox)
+        self.writeDeleteFile = QCheckBox('"d" = delete file or directory', self.writeRulesBox)
+        self.writeDeleteFile.setToolTip('"d" = delete file or directory (DELE, RMD commands)')
         writeLayout.addWidget(self.writeDeleteFile)
-        self.writeRename = QCheckBox('"f" = rename file or directory (RNFR, RNTO commands)', self.writeRulesBox)
+        self.writeRename = QCheckBox('"f" = rename file or directory', self.writeRulesBox)
+        self.writeRename.setToolTip('"f" = rename file or directory (RNFR, RNTO commands)')
         writeLayout.addWidget(self.writeRename)
-        self.writeCreateDirectory = QCheckBox('"m" = create directory (MKD command)', self.writeRulesBox)
+        self.writeCreateDirectory = QCheckBox('"m" = create directory', self.writeRulesBox)
+        self.writeCreateDirectory.setToolTip('"m" = create directory (MKD command)')
         writeLayout.addWidget(self.writeCreateDirectory)
-        self.writeStoreFile = QCheckBox('"w" = store a file to the server (STOR, STOU commands)', self.writeRulesBox)
+        self.writeStoreFile = QCheckBox('"w" = store a file to the server', self.writeRulesBox)
+        self.writeStoreFile.setToolTip('"w" = store a file to the server (STOR, STOU commands)')
         writeLayout.addWidget(self.writeStoreFile)
-        self.writeChangeMode = QCheckBox('"M" = change mode/permission (SITE CHMOD command)', self.writeRulesBox)
+        self.writeChangeMode = QCheckBox('"M" = change mode/permission', self.writeRulesBox)
+        self.writeChangeMode.setToolTip('"M" = change mode/permission (SITE CHMOD command)')
         writeLayout.addWidget(self.writeChangeMode)
         self.writeRulesBox.setLayout(writeLayout)
         commonLayout.addWidget(self.writeRulesBox)
@@ -418,7 +427,6 @@ class PremitionsDialog(QDialog):
         QtCore.QMetaObject.connectSlotsByName(self)
 
         self.setLayout(commonLayout)
-
         
     def getValues(self):
         rulesstr = ''
