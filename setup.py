@@ -1,5 +1,5 @@
-from distutils.core import setup
-#from setuptools import setup
+#from distutils.core import setup
+from setuptools import setup
 from ftpservx import __version__ as VERSION
 PACKAGE = "ftpservx"
 NAME = "ftpservx"
@@ -17,15 +17,19 @@ setup(
     author=AUTHOR,
     author_email=AUTHOR_EMAIL,
     license="GPL3",
-    url=URL,
+    url=r'https://github.com/1-0/ftpservx',
     install_requires = ['PySide>=1.2', 'pyftpdlib>=1.5'],
-    scripts = ['ftpservx.py'],
+    scripts = [r'./ftpservx.py',],
     #packages=[PACKAGE,],
     #packages=find_packages(exclude=["tests.*", "tests"]),
     #package_data=find_package_data(
 #			PACKAGE,
 #			only_in_packages=False
 #	  ),
+    extras_require={
+    "PySide": ['PySide >= 1.0'],
+    "pyftpdlib": ['pyftpdlib >= 1.5'],
+},
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Environment :: X11 Applications :: Qt",
