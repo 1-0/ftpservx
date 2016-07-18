@@ -37,7 +37,7 @@ setup(
         #'console_scripts': [
             #'ftpservx = ftpservx.py:_main',
         #],
-},
+#},
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Environment :: X11 Applications :: Qt",
