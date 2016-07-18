@@ -18,7 +18,7 @@ setup(
     author_email=AUTHOR_EMAIL,
     license="GPL3",
     url=r'https://github.com/1-0/ftpservx',
-    install_requires = ['PySide>=1.2', 'pyftpdlib>=1.5'],
+    install_requires = ['PySide', 'pyftpdlib'],
     scripts = [r'./ftpservx.py',],
     #packages=[PACKAGE,],
     #packages=find_packages(exclude=["tests.*", "tests"]),

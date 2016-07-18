@@ -37,7 +37,7 @@ else:
     LIB_USE = "PyQt"
 
 
-__version__ = '''0.3.5'''
+__version__ = '''0.3.6'''
 
 
 TANGO_ICONS = {'applications_system':"""/* XPM */
@@ -258,9 +258,9 @@ Write permissions:
         self.permitionsInput.setToolTip(premitiontip)
         self.buttonPermitions = QPushButton(getIcon('office_calendar'), "Set Permitions")
         self.buttonPermitions.setToolTip('Wizard to setup premitions')
-        self.buttonRunCwd = QPushButton(getIcon('media_playback_start'), self.baseDir)
+        self.buttonRunCwd = QPushButton(getIcon('zoom-in'), self.baseDir)
         self.buttonRunCwd.setToolTip('Run ftpserverx whith start access to current folder')
-        self.buttonRunSet = QPushButton(getIcon('zoom-in'), "On/Off Serv as seted")
+        self.buttonRunSet = QPushButton(getIcon('media_playback_start'), "On/off FTP-server")
         self.buttonRunSet.setToolTip('Run ftpserverx whith seted settings')
         self.buttonExit = QPushButton(getIcon('application-exit'), "Exit")
         self.buttonExit.setToolTip('Exit ftpservx')
