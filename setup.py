@@ -5,8 +5,8 @@ PACKAGE = "ftpservx"
 NAME = "ftpservx"
 DESCRIPTION = "ftpservx - Fast to run and cross-platform FTP-server. Based on PySide or PyQt4 and pyftpdlib. Licensed by GPL3."
 LONG_DESCRIPTION = '''ftpservx - Fast to run and cross-platform FTP-server. Based on PySide or PyQt4 and pyftpdlib. Licensed by GPL3. Licensed by GPL3.'''
-AUTHOR = "1_0"
-AUTHOR_EMAIL = "1_0@usa.com"
+AUTHOR = "1_0 - Alexander Desyatnichenko"
+AUTHOR_EMAIL = "1_0<at>usa.com"
 URL = r"https://github.com/1-0/ftpservx"
 
 setup(
@@ -16,10 +16,13 @@ setup(
     long_description=LONG_DESCRIPTION,
     author=AUTHOR,
     author_email=AUTHOR_EMAIL,
+    keywords='FTP-server, pyside, pyqt4',
     license="GPL3",
     url=r'https://github.com/1-0/ftpservx',
     install_requires = ['PySide', 'pyftpdlib'],
-    scripts = [r'./ftpservx.py', 'ftpservx.py'],
+    #scripts = [r'ftpservx.py',],
+    py_modules=['pyside', 'pyftpdlib'],
+    namespace_packages=[],
     #packages=[PACKAGE,],
     #packages=find_packages(exclude=["tests.*", "tests"]),
     #package_data=find_package_data(
@@ -27,8 +30,13 @@ setup(
 #			only_in_packages=False
 #	  ),
     extras_require={
-    "PySide": ['PySide >= 1.0'],
-    "pyftpdlib": ['pyftpdlib >= 1.5'],
+    "PySide": ['PySide>=1.0'],
+    "pyftpdlib": ['pyftpdlib>=1.5'],
+},
+    entry_points={
+        'console_scripts': [
+            'ftpservx = ftpservx:_main',
+        ],
 },
     classifiers=[
         "Development Status :: 3 - Alpha",
