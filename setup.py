@@ -20,7 +20,7 @@ setup(
     license="GPL3",
     url=r'https://github.com/1-0/ftpservx',
     install_requires = ['PySide', 'pyftpdlib'],
-    scripts = [r'ftpservx',],
+#    scripts = [r'ftpservx.py',],
     py_modules=['pyside', 'pyftpdlib'],
     namespace_packages=[],
     #packages=[PACKAGE,],
@@ -38,6 +38,11 @@ setup(
             #'ftpservx = ftpservx.py:_main',
         #],
 #},
+    entry_points={
+        'console_scripts': [
+            'ftpservx = ftpservx.__main__:main'
+        ]
+        },
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Environment :: X11 Applications :: Qt",
