@@ -41,7 +41,7 @@ else:
     LIB_USE = "PyQt"
 
 
-__version__ = '''0.3.12'''
+__version__ = '''0.3.14'''
 
 
 TANGO_ICONS = {'applications_system': """/* XPM */

@@ -20,7 +20,7 @@ setup(
     license="GPL3",
     url=r'https://github.com/1-0/ftpservx',
     install_requires = ['PySide', 'pyftpdlib'],
-    #scripts = [r'ftpservx.py',],
+    scripts = [r'ftpservx.py',],
     py_modules=['pyside', 'pyftpdlib'],
     namespace_packages=[],
     #packages=[PACKAGE,],
