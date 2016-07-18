@@ -1,6 +1,6 @@
 #from distutils.core import setup
 from setuptools import setup
-from ftpservx.__main__ import __version__ as VERSION
+from ftpservx.main import __version__ as VERSION
 PACKAGE = "ftpservx"
 NAME = "ftpservx"
 DESCRIPTION = "ftpservx - Fast to run and cross-platform FTP-server. Based on PySide or PyQt4 and pyftpdlib. Licensed by GPL3."
@@ -22,7 +22,7 @@ setup(
     install_requires = ['PySide', 'pyftpdlib'],
 #    scripts = [r'ftpservx.py',],
     py_modules=['pyside', 'pyftpdlib'],
-    namespace_packages=['ftpservx',],
+#    namespace_packages=['ftpservx',],
     packages=['ftpservx',],
     #packages=[PACKAGE,],
     #packages=find_packages(exclude=["tests.*", "tests"]),

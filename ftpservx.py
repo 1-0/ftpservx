@@ -4,9 +4,9 @@
 
 import sys
 import ftpservx
-from ftpservx.__main__ import *
+from ftpservx.main import *
 
 
 if __name__ == "__main__":
-    ftpservx.__main__.main()
+    ftpservx.main.main()
     sys.exit()
