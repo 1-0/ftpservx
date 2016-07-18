@@ -41,7 +41,7 @@ else:
     LIB_USE = "PyQt"
 
 
-__version__ = '''0.3.14'''
+__version__ = '''0.3.15'''
 
 
 TANGO_ICONS = {'applications_system': """/* XPM */
@@ -545,9 +545,9 @@ def ftpdxrun():
     app.exec_()
 
 
-def _main():
-    ftpdxrun()
-    sys.exit()
+#def _main():
+    #ftpdxrun()
+    #sys.exit()
 
 
 if __name__ == "__main__":
