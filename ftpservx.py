@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 '''ftpserv - ftp server gui, based on pyftpdlib writed on Python. Licensed by GPL3.'''
 
@@ -37,7 +37,7 @@ else:
     LIB_USE = "PyQt"
 
 
-__version__ = '''0.3.4'''
+__version__ = '''0.3.5'''
 
 
 TANGO_ICONS = {'applications_system':"""/* XPM */
@@ -159,6 +159,7 @@ if os.name != "nt":
                                 ifname[:15]))[20:24])
 
 def get_lan_ip():
+    '''get_lan_ip() - get current pc ip'''
     ip = socket.gethostbyname(socket.gethostname())
     if ip.startswith("127.") and os.name != "nt":
         interfaces = [
@@ -223,11 +224,16 @@ class FtpdX(QMainWindow):
         self.buttonPath.setToolTip('Select start folder for ftp access')
         self.ipLabel = QLabel("IP: ")
         self.ipInput = QLineEdit("0.0.0.0")
+        self.ipInput.setToolTip('''Enter "0.0.0.0"
+for global FTP-server listening 
+or "127.0.0.1" 
+for local FTP-server listening''')
         #self.ipInput.setReadOnly(True)
         #self.ipInput.setInputMask('000.000.000.000;_')
         self.portLabel = QLabel("Port: ")
         self.portInput = QLineEdit("21010")
         self.portInput.setInputMask("00009;")
+        self.portInput.setToolTip('Enter port number for FTP-server listening')
         self.userLabel = QLabel("User Name: ")
         self.userInput = QLineEdit(getpass.getuser())
         self.userInput.setToolTip('Enter FTP-user name')
@@ -285,7 +291,7 @@ Write permissions:
         confLayout.addLayout(addressLayout)
         confLayout.addLayout(authorizationLayout)
         confLayout.addLayout(premitionsLayout)
-        buttonsLayout.addWidget(self.buttonRunCwd)
+        #buttonsLayout.addWidget(self.buttonRunCwd)
         buttonsLayout.addWidget(self.buttonRunSet)
         self.logBox.setLayout(logLayout)
         self.textLog = QTextBrowser()
