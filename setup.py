@@ -35,7 +35,7 @@ setup(
 },
     entry_points={
         'console_scripts': [
-            'ftpservx = ftpservx:_main',
+            'ftpservx = ftpservx.py:_main',
         ],
 },
     classifiers=[
