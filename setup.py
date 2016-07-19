@@ -30,10 +30,10 @@ setup(
 #           PACKAGE,
 #           only_in_packages=False
 #     ),
-    extras_require={
-    "PySide": ['PySide>=1.0'],
-    "pyftpdlib": ['pyftpdlib>=1.5'],
-},
+    #extras_require={
+    #"PySide": ['PySide>=1.0'],
+    #"pyftpdlib": ['pyftpdlib>=1.5'],
+#},
     #entry_points={
         #'console_scripts': [
             #'ftpservx = ftpservx.py:_main',
