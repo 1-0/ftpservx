@@ -3,8 +3,8 @@ from setuptools import setup
 from ftpservx.main import __version__ as VERSION
 PACKAGE = "ftpservx"
 NAME = "ftpservx"
-DESCRIPTION = "ftpservx - Fast to run and cross-platform FTP-server. Based on PySide or PyQt4 and pyftpdlib. Licensed by GPL3."
-LONG_DESCRIPTION = '''ftpservx - Fast to run and cross-platform FTP-server. Based on PySide or PyQt4 and pyftpdlib. Licensed by GPL3. Licensed by GPL3.'''
+DESCRIPTION = "ftpservx - Fast to run and cross-platform FTP-server. Licensed by GPL3."
+LONG_DESCRIPTION = '''ftpservx - Fast to run and cross-platform FTP-server. Based on PySide or PyQt4 and pyftpdlib. Licensed by GPL3.'''
 AUTHOR = "1_0"
 AUTHOR_EMAIL = "1_0@usa.com"
 URL = r"https://github.com/1-0/ftpservx"
