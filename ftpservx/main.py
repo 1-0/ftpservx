@@ -8,6 +8,7 @@ import getpass
 import re
 import socket
 import imp
+import ast
 
 from multiprocessing import Process
 
@@ -41,7 +42,7 @@ else:
     LIB_USE = "PyQt"
 
 
-__version__ = '''0.4.4'''
+__version__ = '''0.5.1'''
 
 
 TANGO_ICONS = {
@@ -116,11 +117,16 @@ def getIcon(iconname):
 
 class FtpdX(QMainWindow):
     """FtpdX - gui ftpd server"""
-    def __init__(self):
+    def __init__(self, confPath = None):
         '''__init__(self) - init FtpdX instance'''
         super(FtpdX, self).__init__()
 #init class constants
         self.homePath = os.path.expanduser('~')
+        if confPath:
+            self.confPath = confPath
+        else:
+            self.confPath = self.homePath+os.sep+'.config'+os.sep+'ftpserv.conf'
+
         self.baseDir = u''+os.getcwd()
         self.procftp = None
         self.startPath = None
@@ -186,8 +192,8 @@ Write permissions:
         self.permitionsInput.setToolTip(premitiontip)
         self.buttonPermitions = QPushButton(getIcon('system-lock-screen'), "Set Permitions")
         self.buttonPermitions.setToolTip('Wizard to setup premitions')
-        self.buttonRunCwd = QPushButton(getIcon('list-add'), self.baseDir)
-        self.buttonRunCwd.setToolTip('Run ftpserverx whith start access to current folder')
+        self.buttonSaveConf = QPushButton(getIcon('list-add'), "Save config")
+        self.buttonSaveConf.setToolTip("Save config to " + self.confPath)
         self.buttonRunSet = QPushButton(getIcon('network-workgroup'), "&Run FTP-server")
         self.buttonRunSet.setToolTip('Run/stop ftpserverx whith seted settings')
         self.buttonRunSet.setShortcut(QKeySequence(QKeySequence.fromString("Ctrl+R")))
@@ -199,7 +205,7 @@ Write permissions:
 
         self.buttonPath.clicked.connect(self.openFolder)
         self.buttonPermitions.clicked.connect(self.setPremition)
-        self.buttonRunCwd.clicked.connect(self.RunCwdClicked)
+        self.buttonSaveConf.clicked.connect(self.SaveConfClicked)
         self.buttonRunSet.clicked.connect(self.RunSetClicked)
         self.buttonExit.clicked.connect(self.exitClicked)
 
@@ -224,6 +230,7 @@ Write permissions:
         confLayout.addLayout(authorizationLayout)
         confLayout.addLayout(premitionsLayout)
         confLayout.addLayout(anonymousLayout)
+        buttonsLayout.addWidget(self.buttonSaveConf)
         buttonsLayout.addWidget(self.buttonRunSet)
         self.logBox.setLayout(logLayout)
         self.textLog = QTextBrowser()
@@ -240,7 +247,7 @@ Write permissions:
         self.show()
 
         self.statusBar().showMessage('ftpservx ver. ' + __version__)
-
+        self.LoadConf()
 
     def setPremition(self):
         '''setPremition(self) - run premitions wizard'''
@@ -249,6 +256,42 @@ Write permissions:
             values = dlg.getValues()
             if len(values) > 0:
                 self.permitionsInput.setText(values)
+
+    def SaveConfClicked(self):
+        '''SaveConfClicked(self) - Save options to Conf file'''
+        self.conf = open(self.confPath, 'w')
+        self.conf.write(str(self.GetConfDict()))
+        self.conf.close()
+
+    def GetConfDict(self):
+        '''GetConfDict(self) - get config dictionary'''
+        configd = {}
+        configd['user_path'] = self.pathInput.text()
+        configd['server_ip'] = self.ipInput.text()
+        configd['server_port'] = self.portInput.text()
+        configd['user_name'] = self.userInput.text()
+        configd['user_password'] = self.passwordInput.text()
+        configd['user_permitions'] = self.permitionsInput.text()
+        configd['server_anonymous'] = self.allowAnonymous.isChecked()
+        return configd
+
+    def LoadConf(self):
+        '''GetConfDict(self) - get config dictionary'''
+        if os.path.isfile(self.confPath):
+            self.conf = open(self.confPath, 'r')
+            try:
+                configt = self.conf.readlines()
+                configd = ast.literal_eval(configt[0])
+                self.pathInput.setText(configd['user_path'])
+                self.ipInput.setText(configd['server_ip'])
+                self.portInput.setText(configd['server_port'])
+                self.userInput.setText(configd['user_name'])
+                self.passwordInput.setText(configd['user_password'])
+                self.permitionsInput.setText(configd['user_permitions'])
+                self.allowAnonymous.setChecked(configd['server_anonymous'])
+            except:
+                print ('Config file ' + self.confPath + ' is broken')
+            self.conf.close()
 
     def RunSetClicked(self):
         '''RunSetClicked(self) - run ftp server whith setted options'''
@@ -308,9 +351,6 @@ Write permissions:
             self.textLog.append('Server ' + ftp_link + ' is started at ' + self.pathInput.text())
             self.statusBar().showMessage(self.pathInput.text())
 
-    def RunCwdClicked(self):
-        '''RunCwdClicked(self) - run ftp server whith current path to sharing by ftp'''
-        self.RunFtpPath(self.baseDir)
 
     def openFolder(self):
         '''openFolder(self) - select path to sharing by ftp'''
@@ -333,27 +373,6 @@ Write permissions:
                 self.statusBar().showMessage("Open: "+self.path)
         else:
             self.statusBar().showMessage(u'Stop Open Path')
-
-    def RunFtpPath(self, ftppath):
-        '''RunFtpPath(self, ftppath) - run FTP-server at setted path'''
-        if self.procftp:
-            self.procftp.terminate()
-            self.procftp = None
-            self.textLog.append('Server is stopped')
-            self.statusBar().showMessage(str(self.procftp))
-        else:
-            self.procftp = Process(target=runFtpD,
-                                   args=(str(ftppath),
-                                         str(self.userInput.text()),
-                                         str(self.passwordInput.text()),
-                                         str(self.permitionsInput.text()),
-                                         None,
-                                         str(self.ipInput.text()),
-                                         int(self.portInput.text())
-                                         ))
-            self.procftp.start()
-            ftp_link = '<a href="ftp://' + get_lan_ip() + ':' + self.portInput.text() + '">ftp://' + get_lan_ip() + ':' + self.portInput.text()+'</a>'
-            self.textLog.append('Server ' + ftp_link + ' is started at ' + ftppath)
 
     def exitClicked(self):
         '''exitClicked(self) - exit clicked'''
@@ -481,6 +500,7 @@ class PremitionsDialog(QDialog):
 
 def main():
     '''main() - main loop ftpservx'''
+    
     app = QApplication(sys.argv)
     w = FtpdX()
     app.exec_()
