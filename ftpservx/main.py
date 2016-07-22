@@ -42,7 +42,7 @@ else:
     LIB_USE = "PyQt"
 
 
-__version__ = '''0.5.1'''
+__version__ = '''0.5.2'''
 
 
 TANGO_ICONS = {
@@ -259,9 +259,14 @@ Write permissions:
 
     def SaveConfClicked(self):
         '''SaveConfClicked(self) - Save options to Conf file'''
-        self.conf = open(self.confPath, 'w')
-        self.conf.write(str(self.GetConfDict()))
-        self.conf.close()
+        try:
+            self.conf = open(self.confPath, 'w')
+        except IOError:
+            os.makedirs(self.homePath+os.sep+'.config')
+            self.conf = open(self.confPath, 'w+')
+        finally:
+            self.conf.write(str(self.GetConfDict()))
+            self.conf.close()
 
     def GetConfDict(self):
         '''GetConfDict(self) - get config dictionary'''
