@@ -31,17 +31,17 @@ if foundPySide:
     from PySide import QtCore
     from PySide.QtGui import QWidget, QVBoxLayout, QHBoxLayout, QPushButton,\
         QLineEdit, QTextBrowser, QFileDialog, QDialog, QLabel, QCheckBox,\
-        QPixmap, QIcon, QMainWindow, QApplication, QGroupBox, QDialogButtonBox
+        QPixmap, QIcon, QMainWindow, QApplication, QGroupBox, QDialogButtonBox, QKeySequence
     LIB_USE = "PySide"
 else:
     from PyQt4 import QtCore
     from PyQt4.QtGui import QWidget, QVBoxLayout, QHBoxLayout, QPushButton,\
         QLineEdit, QTextBrowser, QFileDialog, QDialog, QLabel, QCheckBox,\
-        QPixmap, QIcon, QMainWindow, QApplication, QGroupBox, QDialogButtonBox
+        QPixmap, QIcon, QMainWindow, QApplication, QGroupBox, QDialogButtonBox, QKeySequence
     LIB_USE = "PyQt"
 
 
-__version__ = '''0.4.2'''
+__version__ = '''0.4.4'''
 
 
 TANGO_ICONS = {
@@ -188,8 +188,9 @@ Write permissions:
         self.buttonPermitions.setToolTip('Wizard to setup premitions')
         self.buttonRunCwd = QPushButton(getIcon('list-add'), self.baseDir)
         self.buttonRunCwd.setToolTip('Run ftpserverx whith start access to current folder')
-        self.buttonRunSet = QPushButton(getIcon('network-workgroup'), "Run FTP-server")
-        self.buttonRunSet.setToolTip('Run ftpserverx whith seted settings')
+        self.buttonRunSet = QPushButton(getIcon('network-workgroup'), "&Run FTP-server")
+        self.buttonRunSet.setToolTip('Run/stop ftpserverx whith seted settings')
+        self.buttonRunSet.setShortcut(QKeySequence(QKeySequence.fromString("Ctrl+R")))
         self.allowAnonymous = QCheckBox("Allow anonymous")
         self.allowAnonymous.setToolTip('Allow anonymous connect to FTP-server')
         self.buttonExit = QPushButton(getIcon('system-log-out'), "Exit")
@@ -238,6 +239,9 @@ Write permissions:
         self.setCentralWidget(window)
         self.show()
 
+        self.statusBar().showMessage('ftpservx ver. ' + __version__)
+
+
     def setPremition(self):
         '''setPremition(self) - run premitions wizard'''
         dlg = PremitionsDialog(self)
@@ -252,7 +256,8 @@ Write permissions:
             self.procftp.terminate()
             self.procftp = None
             self.buttonRunSet.setIcon(getIcon('network-workgroup'))
-            self.buttonRunSet.setText('Run FTP-server')
+            self.buttonRunSet.setText('&Run FTP-server')
+            self.buttonRunSet.setShortcut(QKeySequence(QKeySequence.fromString("Ctrl+R")))
             self.statusBar().showMessage(str(self.procftp))
             self.textLog.append('Server is stopped')
         else:
@@ -297,8 +302,9 @@ Write permissions:
             ftp_link = '<a href="ftp://' + get_lan_ip() + ':' + \
                         self.portInput.text() + '">ftp://' + get_lan_ip() + \
                         ':' + self.portInput.text()+'</a>'
-            self.buttonRunSet.setText('Stop FTP-server')
+            self.buttonRunSet.setText('&Stop FTP-server')
             self.buttonRunSet.setIcon(getIcon('process-stop'))
+            self.buttonRunSet.setShortcut(QKeySequence(QKeySequence.fromString("Ctrl+S")))
             self.textLog.append('Server ' + ftp_link + ' is started at ' + self.pathInput.text())
             self.statusBar().showMessage(self.pathInput.text())
 
