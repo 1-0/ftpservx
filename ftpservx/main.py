@@ -42,8 +42,19 @@ else:
     LIB_USE = "PyQt"
 
 
-__version__ = '''0.5.3'''
+def _(strin):
+    return strin
 
+__version__ = '''0.5.7'''
+VERSION_INFO = _(u"ftpservx. Ftp-server licensed by GPL3. Ver. %s")
+CONSOLE_USAGE = _(u'''
+[KEY]...[FILE]
+Keys:
+-p                          Path to share directory
+-c                          Path to config file
+-h                          Print this help message
+-v                          Print version info
+''')
 
 TANGO_ICONS = {
 'document-save': """/* XPM */ static char * Document_save_xpm[] = { "32 32 281 2", "  	c None", ". 	c #355C94", "+ 	c #6080AE", "@ 	c #7492BB", "# 	c #7695BE", "$ 	c #6A8AB4", "% 	c #4B70A3", "& 	c #285290", "* 	c #305791", "= 	c #7492BC", "- 	c #91ACCE", "; 	c #91ACCD", "> 	c #8EA9CC", ", 	c #8AA6CA", "' 	c #85A1C6", ") 	c #4B6FA0", "! 	c #345A91", "~ 	c #9AB1CD", "{ 	c #96AFCF", "] 	c #7F9BC1", "^ 	c #839EC4", "/ 	c #90ABCD", "( 	c #8AA7CB", "_ 	c #85A3C8", ": 	c #809FC6", "< 	c #7C9BC4", "[ 	c #85A2C8", "} 	c #5C7DAB", "| 	c #2A538C", "1 	c #8AA2C3", "2 	c #5A7AA7", "3 	c #305891", "4 	c #345B93", "5 	c #6F8FB9", "6 	c #89A6CA", "7 	c #7D9DC5", "8 	c #7899C3", "9 	c #7495C1", "0 	c #81A0C6", "a 	c #496CA1", "b 	c #5072A1", "c 	c #345B91", "d 	c #224E8B", "e 	c #6E8CB7", "f 	c #7E9EC5", "g 	c #7496C1", "h 	c #7193BF", "i 	c #6C8FBD", "j 	c #7E9BC3", "k 	c #25518D", "l 	c #345C93", "m 	c #2D558E", "n 	c #85A1C7", "o 	c #6D90BD", "p 	c #688CBB", "q 	c #7899C2", "r 	c #4C6EA3", "s 	c #999999", "t 	c #AAAAAA", "u 	c #A9A9A9", "v 	c #A8A8A8", "w 	c #A7A7A7", "x 	c #8B93A0", "y 	c #7692B8", "z 	c #6C90BD", "A 	c #6489B9", "B 	c #658ABA", "C 	c #718EB4", "D 	c #8B929C", "E 	c #A0A0A0", "F 	c #9F9F9F", "G 	c #9E9E9E", "H 	c #9D9D9D", "I 	c #979797", "J 	c #606060", "K 	c #B2B2B2", "L 	c #F1F1F1", "M 	c #EBEBEB", "N 	c #E7E8E9", "O 	c #6D89B2", "P 	c #6E91BE", "Q 	c #6086B8", "R 	c #5C83B6", "S 	c #7B98BF", "T 	c #ACB8CA", "U 	c #E4E4E4", "V 	c #E3E3E3", "W 	c #E2E2E2", "X 	c #C0C0C0", "Y 	c #545454", "Z 	c #ECECEC", "` 	c #D2D5DB", " .	c #466999", "..	c #5879A6", "+.	c #5B7AA7", "@.	c #5E7CA8", "#.	c #5E7DA9", "$.	c #718EB6", "%.	c #5E85B7", "&.	c #5B83B5", "*.	c #5780B4", "=.	c #829DC3", "-.	c #5D7CA7", ";.	c #6280AB", ">.	c #617FAA", ",.	c #607FAA", "'.	c #3E6297", ").	c #A6B1C2", "!.	c #E5E5E5", "~.	c #636363", "{.	c #8B8B8B", "].	c #F0F0F0", "^.	c #BAC4D0", "/.	c #607FAB", "(.	c #7E9CC5", "_.	c #6F92BF", ":.	c #7092BE", "<.	c #6187B8", "[.	c #5981B5", "}.	c #567FB3", "|.	c #537DB2", "1.	c #668BBA", "2.	c #6389B9", "3.	c #7F9BC0", "4.	c #728BAD", "5.	c #DCDCDC", "6.	c #DFDFDF", "7.	c #D1D1D1", "8.	c #E1E1E1", "9.	c #AFBBCC", "0.	c #6684B0", "a.	c #7092BF", "b.	c #557EB3", "c.	c #517BB1", "d.	c #4B77AE", "e.	c #426FAA", "f.	c #3B6AA7", "g.	c #4470AB", "h.	c #7A96BE", "i.	c #607EA7", "j.	c #DBDBDC", "k.	c #D9D9D9", "l.	c #D7D7D7", "m.	c #D4D4D4", "n.	c #5D5D5D", "o.	c #E0E0E0", "p.	c #E7E7E7", "q.	c #E6E6E6", "r.	c #9DADC3", "s.	c #6786B2", "t.	c #4A76AE", "u.	c #4773AD", "v.	c #3F6DA9", "w.	c #3868A6", "x.	c #3465A4", "y.	c #3A6AA7", "z.	c #7696BF", "A.	c #5473A2", "B.	c #DBDBDD", "C.	c #DDDDDD", "D.	c #DBDBDB", "E.	c #7A7A7A", "F.	c #A6A6A6", "G.	c #E9E9E9", "H.	c #869AB6", "I.	c #5F80AE", "J.	c #4C77AF", "K.	c #3667A5", "L.	c #7394BF", "M.	c #4F709F", "N.	c #CDCFD3", "O.	c #DADADA", "P.	c #B6B6B6", "Q.	c #D5D5D5", "R.	c #798EAD", "S.	c #6787B3", "T.	c #4874AD", "U.	c #6C8EBC", "V.	c #5172A2", "W.	c #BFC3C9", "X.	c #D2D2D2", "Y.	c #D3D3D3", "Z.	c #D8D8D8", "`.	c #DEDEDE", " +	c #5C5C5C", ".+	c #787878", "++	c #EEEEEE", "@+	c #D0D0D0", "#+	c #6680A6", "$+	c #6D8DB7", "%+	c #4673AC", "&+	c #6287B8", "*+	c #5777A5", "=+	c #ACB3BE", "-+	c #CBCBCB", ";+	c #CDCDCD", ">+	c #929292", ",+	c #BEBEBE", "'+	c #D6D6D6", ")+	c #C8C9C9", "!+	c #56749E", "~+	c #7896BE", "{+	c #5F86B7", "]+	c #6584AF", "^+	c #93A0B2", "/+	c #C6C6C6", "(+	c #CACACA", "_+	c #CFCFCF", ":+	c #565656", "<+	c #CECECE", "[+	c #C6C7C8", "}+	c #53719E", "|+	c #6684AF", "1+	c #8193AD", "2+	c #C9C9C9", "3+	c #6F6F6F", "4+	c #919191", "5+	c #C5C6C9", "6+	c #8899B1", "7+	c #CCCCCC", "8+	c #E8E8E8", "9+	c #5F5F5F", "0+	c #BBBBBB", "a+	c #BABABA", "b+	c #B9B9B9", "c+	c #B7B7B7", "d+	c #B5B5B5", "e+	c #B4B4B4", "f+	c #B1B1B1", "g+	c #B0B0B0", "h+	c #AFAFAF", "i+	c #AEAEAE", "j+	c #ACACAC", "k+	c #ABABAB", "l+	c #A5A5A5", "m+	c #A4A4A4", "n+	c #A2A2A2", "o+	c #A1A1A1", "p+	c #9B9B9B", "q+	c #969696", "r+	c #9C9C9C", "s+	c #ADADAD", "t+	c #B8B8B8", "u+	c #8D8D8D", "v+	c #959595", "w+	c #989898", "x+	c #A3A3A3", "y+	c #5B5B5B", "z+	c #4E4E4E", "A+	c #BDBDBD", "B+	c #C1C1C1", "C+	c #C5C5C5", "D+	c #B3B3B3", "E+	c #5A5A5A", "F+	c #C8C8C8", "G+	c #C4C4C4", "H+	c #C3C3C3", "I+	c #C2C2C2", "J+	c #BCBCBC", "K+	c #6C6C6C", "L+	c #8E8E8E", "M+	c #8A8A8A", "N+	c #898989", "O+	c #888888", "P+	c #868686", "Q+	c #858585", "R+	c #848484", "S+	c #838383", "T+	c #828282", "U+	c #818181", "V+	c #7F7F7F", "W+	c #7E7E7E", "X+	c #7C7C7C", "Y+	c #7B7B7B", "Z+	c #797979", "`+	c #777777", " @	c #767676", ".@	c #757575", "+@	c #747474", "@@	c #737373", "#@	c #676767", "                                                                ", "                                                                ", "                . + @ # $ % &                                   ", "            * = - ; - > , , ' )                                 ", "          ! ~ { ] ^ / ( _ : < [ }                               ", "        | 1 2 3     4 5 6 7 8 9 0 a                             ", "        b c           d e f g h i j k                           ", "        l               m n h o p q r                           ", "              s t u v w x y z p A B C D E F G H I J             ", "            K L M M M M N O P A Q R S T U V V W V X             ", "          Y Z `  ...+.@.#.$.i %.&.*.=.-.;.>.,.'.).!.~.          ", "          {.].U ^./.(._._.:.<.[.}.|.B 1.2._.3.4.5.6.E           ", "          7.U 8.U 9.0.a.&.[.*.b.c.d.e.f.g.h.i.j.k.l.m.          ", "        n.].o.U p.q.r.s.<.t.u.v.w.x.x.y.z.A.B.C.D.l.V E.        ", "        F.G.V !.8.6.C.H.I.J.x.x.x.x.K.L.M.N.k.k.O.D.k.P.        ", "        o.6.8.6.D.l.Q.Q.R.S.T.x.x.x.U.V.W.X.Y.Q.l.Z.l.`. +      ", "      .+++5.5.Z.Q.Q.Q.m.@+#+$+%+x.&+*+=+-+;+@+X.m.l.O.5.>+      ", "      ,+8.k.o.'+'+'+m.@+;+)+!+~+{+]+^+/+(+;+_+X.Y.O.Z.Q./+      ", "    :+p.D.O.5.V 5.l.Q.7.<+;+[+}+|+1+2+-+;+_+7.m.C.C.X.Q.C.3+    ", "    4+p.O.D.O.5.!.V O.Q.X.7._+5+6+_+@+7.Y.Q.5.!.5.m.Q.'+l.F.    ", "    7+5.G.U D.D.O.`.!.G.q.8.`.`.C.C.o.U 8+!.`.l.'+Q.D.8+l.m.Y   ", "    p.k.5.D.O.O.O.O.D.D.C.8.U V V V W 5.Z.l.l.'+'+Q.m.l.Y.!.9+  ", "    o.V V V V W W 8.8.o.o.o.6.6.`.`.C.C.5.5.D.D.D.O.k.k.k.7+ +  ", "    Y.0+0+a+b+c+P.d+e+K f+g+h+i+j+k+t u w F.l+m+n+o+E F F h+ +  ", "    7.0+0+p+q+r+o+l+u k+i+i+h+s+j+k+u v b+t+F.l+d+e+n+j+F s+ +  ", "    @+0+a+q+u+v+r+o+F.u j+i+i+s+j+t u v b+t+l+m+P.d+o+s+F j+ +  ", "    <+0+b+l+w+I r+o+F.u j+s+s+s+j+u v w b+t+m+x+P.d+o+s+F t y+  ", "  z+<+a+b+A+B+C+0+d+D+j+i+s+i+s+t u v F.t+t+m+n+d+e+o+s+F u E+  ", "    F+F+C+G+H+I+X ,+A+J+0+t+c+P.e+K f+h+h+s+t u v w m+l+m+v Y   ", "    K+L+u+u+{.M+N+O+P+Q+R+S+T+U+V+V+W+X+Y+E.Z+`+ @.@.@+@@@#@    ", "                                                                ", "                                                                "}; """,
@@ -117,7 +128,7 @@ def getIcon(iconname):
 
 class FtpdX(QMainWindow):
     """FtpdX - gui ftpd server"""
-    def __init__(self, confPath = None):
+    def __init__(self, confPath = None, pathtoDir = None):
         '''__init__(self) - init FtpdX instance'''
         super(FtpdX, self).__init__()
 #init class constants
@@ -127,8 +138,12 @@ class FtpdX(QMainWindow):
         else:
             self.confPath = self.homePath+os.sep+'.config'+os.sep+'ftpserv.conf'
 
-        self.baseDir = u''+os.getcwd()
+        
         self.procftp = None
+        if pathtoDir:
+            self.baseDir = pathtoDir
+        else:
+            self.baseDir = u''+os.getcwd()
         self.startPath = None
         self.initUI()
 
@@ -152,7 +167,7 @@ class FtpdX(QMainWindow):
         logLayout = QVBoxLayout()
 
         self.pathLabel = QLabel("Path: ")
-        self.pathInput = QLineEdit(self.homePath)
+        self.pathInput = QLineEdit(self.baseDir)
         self.pathInput.setToolTip('Set start folder for ftp access')
         self.buttonPath = QPushButton(getIcon('document-open'), "Select Path")
         self.buttonPath.setToolTip('Select start folder for ftp access')
@@ -248,7 +263,9 @@ Write permissions:
 
         self.statusBar().showMessage('ftpservx ver. ' + __version__)
         self.LoadConf()
-
+        if len(sys.argv)>1 and sys.argv[1]=='-p':
+            self.pathInput.setText(self.baseDir)
+        
     def setPremition(self):
         '''setPremition(self) - run premitions wizard'''
         dlg = PremitionsDialog(self)
@@ -297,6 +314,8 @@ Write permissions:
             except:
                 print ('Config file ' + self.confPath + ' is broken')
             self.conf.close()
+        else:
+            print ('No config file %s' % self.confPath)
 
     def RunSetClicked(self):
         '''RunSetClicked(self) - run ftp server whith setted options'''
@@ -503,11 +522,32 @@ class PremitionsDialog(QDialog):
         return rulesstr
 
 
+def usage():
+    '''usage() - print usage to console'''
+    print (sys.argv[0] + '\n' + VERSION_INFO % __version__ + CONSOLE_USAGE)
+
+
 def main():
     '''main() - main loop ftpservx'''
     
+    pathToDir = None
+    confPath = None
+    
+    if len(sys.argv) < 2:
+        pathToDir = None
+    elif sys.argv[1]=='-h':
+        usage()
+        sys.exit()
+    elif sys.argv[1]=='-p':
+        pathToDir = sys.argv[2]
+    elif sys.argv[1]=='-c':
+        confPath = sys.argv[2]
+    elif sys.argv[1]=='-v':
+        print (VERSION_INFO % __version__)
+        sys.exit()
+
     app = QApplication(sys.argv)
-    w = FtpdX()
+    w = FtpdX(confPath, pathToDir)
     app.exec_()
 
 
