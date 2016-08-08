@@ -1,6 +1,11 @@
-#from distutils.core import setup
-from setuptools import setup
+from distutils.core import setup
+import py2exe
+#from setuptools import setup
+
 from ftpservx.main import __version__ as VERSION
+
+
+
 PACKAGE = "ftpservx"
 NAME = "ftpservx"
 DESCRIPTION = "ftpservx - Fast to run and cross-platform FTP-server. Licensed by GPL3."

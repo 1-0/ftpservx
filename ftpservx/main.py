@@ -45,7 +45,7 @@ else:
 def _(strin):
     return strin
 
-__version__ = '''0.5.7'''
+__version__ = '''0.5.8'''
 VERSION_INFO = _(u"ftpservx. Ftp-server licensed by GPL3. Ver. %s")
 CONSOLE_USAGE = _(u'''
 [KEY]...[FILE]
@@ -522,35 +522,35 @@ class PremitionsDialog(QDialog):
         return rulesstr
 
 
-def usage():
+def usage(argsval):
     '''usage() - print usage to console'''
-    print (sys.argv[0] + '\n' + VERSION_INFO % __version__ + CONSOLE_USAGE)
+    print (argsval[0] + '\n' + VERSION_INFO % __version__ + CONSOLE_USAGE)
 
 
-def main():
+def main(argsval):
     '''main() - main loop ftpservx'''
     
     pathToDir = None
     confPath = None
-    
-    if len(sys.argv) < 2:
+    print (argsval)
+    if len(argsval) < 2:
         pathToDir = None
-    elif sys.argv[1]=='-h':
-        usage()
+    elif argsval[1]=='-h':
+        usage(argsval)
         sys.exit()
-    elif sys.argv[1]=='-p':
-        pathToDir = sys.argv[2]
-    elif sys.argv[1]=='-c':
-        confPath = sys.argv[2]
-    elif sys.argv[1]=='-v':
+    elif argsval[1]=='-p':
+        pathToDir = argsval[2]
+    elif argsval[1]=='-c':
+        confPath = argsval[2]
+    elif argsval[1]=='-v':
         print (VERSION_INFO % __version__)
         sys.exit()
 
-    app = QApplication(sys.argv)
+    app = QApplication(argsval)
     w = FtpdX(confPath, pathToDir)
     app.exec_()
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv)
     sys.exit()

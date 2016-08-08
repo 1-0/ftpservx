@@ -8,5 +8,5 @@ from ftpservx.main import *
 
 
 if __name__ == "__main__":
-    ftpservx.main.main()
+    ftpservx.main.main(sys.argv)
     sys.exit()
