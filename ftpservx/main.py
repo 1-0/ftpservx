@@ -123,7 +123,7 @@ def getIcon(iconname):
     """getIcon(iconname) - get icon data by icon name"""
     newPixmap = QPixmap()
     newPixmap.loadFromData(TANGO_ICONS[iconname])
-    return QIcon(newPixmap)
+    return QIcon.fromTheme(iconname, QIcon(newPixmap))
 
 
 class FtpdX(QMainWindow):
@@ -532,7 +532,7 @@ def main(argsval):
     
     pathToDir = None
     confPath = None
-    print (argsval)
+    #~ print (argsval)
     if len(argsval) < 2:
         pathToDir = None
     elif argsval[1]=='-h':
